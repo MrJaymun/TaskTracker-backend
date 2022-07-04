@@ -26,14 +26,14 @@ namespace TaskTracker.Controllers
         public ActionResult<string> CreateUser([System.Web.Http.FromUri] NewUserRequest request)
         {
 
-            if(!UserValidator.ValidateLogin(request.NewUserLogin)) return BadRequest("Incorrect symbols in login.");
-            if(!UserValidator.ValidatePassword(request.NewUserPassword)) return BadRequest("Incorrect symbols in password.");
+            if(!UserValidator.ValidateLogin(request.NewUserLogin)) return BadRequest("Некорректные символы в логине.");
+            if(!UserValidator.ValidatePassword(request.NewUserPassword)) return BadRequest("Некорректные символы в пароле.");
 
             var user = _userService.CreateUser(request.NewUserLogin, request.NewUserPassword);
 
-            if(user == null) return BadRequest("Login is used by another user");
+            if(user == null) return BadRequest("Логин занят другим пользователем");
 
-            return StatusCode(201, new JsonResult("User with login " + user.Login + " was successfully created"));
+            return StatusCode(201, new JsonResult("Пользователь с логином " + user.Login + " был успешно создан"));
           
         }
 
@@ -44,13 +44,13 @@ namespace TaskTracker.Controllers
         {
 
             
-            if (!UserValidator.ValidatePassword(request.userNewPassword)) return BadRequest("Incorrect symbols in new password.");
+            if (!UserValidator.ValidatePassword(request.userNewPassword)) return BadRequest("Некорректные символы в пароле.");
 
             var user = _userService.UpdatePassword(request.userLogin, request.userPassword, request.userNewPassword);
 
-            if (user == null) return BadRequest("User does not exist or password is incorrect");
+            if (user == null) return BadRequest("Пользователь не существует или неправильный пароль");
 
-            return StatusCode(201, new JsonResult("Password of user with login " + user.Login + " was successfully changed"));
+            return StatusCode(201, new JsonResult("Пароль пользователя с логином " + user.Login + " был успешно изменен"));
 
         }
 

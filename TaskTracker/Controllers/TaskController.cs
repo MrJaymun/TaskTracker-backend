@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿    using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskTracker.Requests.TaskRequest;
 using TaskTrackerModels.Tasks;
@@ -26,16 +26,16 @@ namespace TaskTracker.Controllers
         {
             bool user = _userService.CheckUser(request.UserLogin, request.UserPassword);
 
-            if (!user) return BadRequest("There is no such a user in database or password is incorrect");
+            if (!user) return BadRequest("Пользователь не существует или неправильный пароль");
 
-            if (request.Name == null || request.Name == "") return BadRequest("Name can not be empty");
-            if (request.Description == null || request.Description == "") return BadRequest("Description can not be empty");
-            if (request.PerformerLogin == null || request.PerformerLogin == "") return BadRequest("Task must have the performer");
+            if (request.Name == null || request.Name == "") return BadRequest("Имя не может быть пустым");
+            if (request.Description == null || request.Description == "") return BadRequest("Описание не может быть пустым");
+            if (request.PerformerLogin == null || request.PerformerLogin == "") return BadRequest("У задачи должен быть исполнитель");
 
 
             var task = _taskService.CreateTask(request.Name, request.Description, request.Project, request.PerformerLogin);
 
-            if (task == null) return BadRequest("Task was not created");
+            if (task == null) return BadRequest("Задача не была создана");
             return StatusCode(201, new JsonResult(task.Id));
         }
 

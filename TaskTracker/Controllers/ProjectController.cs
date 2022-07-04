@@ -30,14 +30,14 @@ namespace TaskTracker.Controllers
         {
             bool user = _userService.CheckUser(request.UserLogin, request.UserPassword);
 
-            if (!user) return BadRequest("There is no such a user in database or password is incorrect");
+            if (!user) return BadRequest("Пользователь не существует или неправильный пароль");
 
-            if(request.Name == null || request.Name == "") return BadRequest("Name can not be empty");
-            if(request.Description == null || request.Description == "") return BadRequest("Description can not be empty");
+            if(request.Name == null || request.Name == "") return BadRequest("Название не может быть пустым");
+            if(request.Description == null || request.Description == "") return BadRequest("Описание не может быть пустым");
 
             var project = _projectService.CreateProject(request.UserLogin, request.Name, request.Description, request.IsPersonal);
 
-            if (project == null) return BadRequest("Project was not created");
+            if (project == null) return BadRequest("Проект не был создан");
             return StatusCode(201, new JsonResult(project.Id));
         }
 
@@ -50,7 +50,7 @@ namespace TaskTracker.Controllers
             bool user = _userService.CheckUser(login, password);
 
 
-            if (!user) return BadRequest("There is no such a user in database or password is incorrect");
+            if (!user) return BadRequest("Пользователь не существует или неправильный пароль");
             var data = _projectService.GetMyProjects(login);
 
             var projects = new List<ProjectMainPageResponse>();
@@ -79,10 +79,10 @@ namespace TaskTracker.Controllers
            
             bool user = _userService.CheckUser(login, password);
 
-            if (!user) return BadRequest("There is no such a user in database or password is incorrect");
+            if (!user) return BadRequest("Пользователь не существует или неправильный пароль");
 
             var data = _projectService.WatchProject(id, login);
-            if(data == null) return BadRequest("The project can`t be found or doesn`t exist anymore");
+            if(data == null) return BadRequest("Проект не может быть найден или больше не существует");
             return StatusCode(200, new JsonResult(data));
 
         }
