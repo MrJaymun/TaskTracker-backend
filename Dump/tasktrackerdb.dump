@@ -1,0 +1,365 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.2
+-- Dumped by pg_dump version 12.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: Comments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Comments" (
+    "Guid" uuid NOT NULL,
+    "Text" text NOT NULL,
+    "AuthorGuid" uuid NOT NULL,
+    "TaskGuid" uuid NOT NULL,
+    "Date" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."Comments" OWNER TO postgres;
+
+--
+-- Name: ProjectUser; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."ProjectUser" (
+    "ProjectsGuid" uuid NOT NULL,
+    "UsersGuid" uuid NOT NULL
+);
+
+
+ALTER TABLE public."ProjectUser" OWNER TO postgres;
+
+--
+-- Name: Projects; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Projects" (
+    "Guid" uuid NOT NULL,
+    "Name" text NOT NULL,
+    "Description" text NOT NULL,
+    "Creator" text NOT NULL,
+    "IsPersonal" boolean NOT NULL
+);
+
+
+ALTER TABLE public."Projects" OWNER TO postgres;
+
+--
+-- Name: TaskStatuses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."TaskStatuses" (
+    "Id" uuid NOT NULL,
+    "Status" text NOT NULL
+);
+
+
+ALTER TABLE public."TaskStatuses" OWNER TO postgres;
+
+--
+-- Name: Tasks; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Tasks" (
+    "Guid" uuid NOT NULL,
+    "Name" text NOT NULL,
+    "Description" text NOT NULL,
+    "ProjectGuid" uuid NOT NULL,
+    "PerformerGuid" uuid NOT NULL,
+    "BeginDate" timestamp with time zone NOT NULL,
+    "EndDate" timestamp with time zone,
+    "StatusId" uuid NOT NULL
+);
+
+
+ALTER TABLE public."Tasks" OWNER TO postgres;
+
+--
+-- Name: Users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Users" (
+    "Guid" uuid NOT NULL,
+    "Login" text NOT NULL,
+    "Password" text NOT NULL
+);
+
+
+ALTER TABLE public."Users" OWNER TO postgres;
+
+--
+-- Name: __EFMigrationsHistory; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."__EFMigrationsHistory" (
+    "MigrationId" character varying(150) NOT NULL,
+    "ProductVersion" character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public."__EFMigrationsHistory" OWNER TO postgres;
+
+--
+-- Data for Name: Comments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Comments" ("Guid", "Text", "AuthorGuid", "TaskGuid", "Date") FROM stdin;
+cc487fcc-c5a4-4289-87be-06a82414c580	Нужно найти место, до которого легко добраться	39891c67-75f7-452b-9b0b-72b2ea638fa3	55524eab-1b71-4440-bd16-6bb8a6ccc0fb	2022-07-06 13:11:50.29374+03
+0b1a0c6d-e415-4231-b29a-7c999725b37b	Осталось сдать 1 экзамен	39891c67-75f7-452b-9b0b-72b2ea638fa3	4c3208ef-8c22-4fe1-b695-c4a3956e1fca	2022-07-06 13:13:20.797559+03
+fe5889b0-b898-4c6e-a837-ada8e1ff954c	Также это место должно быть живописным	096f3466-e9d8-489b-b71c-6dc9250f408a	55524eab-1b71-4440-bd16-6bb8a6ccc0fb	2022-07-06 13:14:00.453003+03
+\.
+
+
+--
+-- Data for Name: ProjectUser; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."ProjectUser" ("ProjectsGuid", "UsersGuid") FROM stdin;
+c4d558d9-7537-44a3-a3e6-3da0308aa5d9	096f3466-e9d8-489b-b71c-6dc9250f408a
+c4d558d9-7537-44a3-a3e6-3da0308aa5d9	39891c67-75f7-452b-9b0b-72b2ea638fa3
+5a39677c-2c76-42d2-b878-6278e580a3e2	39891c67-75f7-452b-9b0b-72b2ea638fa3
+846afc88-62fd-4cc3-ba9e-9cf244e40b68	192b29e2-24e8-4378-ba9b-55b372aa71ef
+c4d558d9-7537-44a3-a3e6-3da0308aa5d9	192b29e2-24e8-4378-ba9b-55b372aa71ef
+846afc88-62fd-4cc3-ba9e-9cf244e40b68	39891c67-75f7-452b-9b0b-72b2ea638fa3
+12ec1694-b323-4b4d-8172-c138fd7a5349	39891c67-75f7-452b-9b0b-72b2ea638fa3
+cde1567c-6988-4854-8474-d1e5353ad602	39891c67-75f7-452b-9b0b-72b2ea638fa3
+12ec1694-b323-4b4d-8172-c138fd7a5349	48aa13f8-dbce-42b1-b30a-7fd1444ef411
+\.
+
+
+--
+-- Data for Name: Projects; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Projects" ("Guid", "Name", "Description", "Creator", "IsPersonal") FROM stdin;
+c4d558d9-7537-44a3-a3e6-3da0308aa5d9	Создание фотографий	Проект в котором можно научиться создавать фотографии	helper	f
+5a39677c-2c76-42d2-b878-6278e580a3e2	Прохождение сессии	Нужно закрыть сессию	admin	t
+846afc88-62fd-4cc3-ba9e-9cf244e40b68	Придумывание тестовых данных	Нужно добавить в проект тестовых данных чтобы он не выглядел таким пустым. 	usual	f
+12ec1694-b323-4b4d-8172-c138fd7a5349	Проверка 1	Проверка 1Проверка 1\nПроверка 1	admin	f
+cde1567c-6988-4854-8474-d1e5353ad602	Проверка 2	Проверка 2	admin	t
+\.
+
+
+--
+-- Data for Name: TaskStatuses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."TaskStatuses" ("Id", "Status") FROM stdin;
+b78bd7c2-23f4-4f1a-84c3-321e08b75188	Planned
+695e5343-7868-492a-901e-342fc8f6bbfa	In progress
+e4457e78-653a-488b-827c-ddcfb1ac8f00	Finished
+1b0cdf16-f677-4de8-9fc9-525efef17be3	Done
+\.
+
+
+--
+-- Data for Name: Tasks; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Tasks" ("Guid", "Name", "Description", "ProjectGuid", "PerformerGuid", "BeginDate", "EndDate", "StatusId") FROM stdin;
+487b7f27-5b9e-4498-83b4-3d414d3db815	Проектная деятельность	Сдать проектную деятельность	5a39677c-2c76-42d2-b878-6278e580a3e2	39891c67-75f7-452b-9b0b-72b2ea638fa3	-infinity	-infinity	b78bd7c2-23f4-4f1a-84c3-321e08b75188
+81c2c93c-c5d0-44d2-96d0-98f91a9ef662	Курсовой	Сдать курсовой проект	5a39677c-2c76-42d2-b878-6278e580a3e2	39891c67-75f7-452b-9b0b-72b2ea638fa3	2022-07-06 13:12:59.999497+03	-infinity	695e5343-7868-492a-901e-342fc8f6bbfa
+4c3208ef-8c22-4fe1-b695-c4a3956e1fca	Экзамены	Нужно сдать все экзамены	5a39677c-2c76-42d2-b878-6278e580a3e2	39891c67-75f7-452b-9b0b-72b2ea638fa3	2022-07-06 13:13:13.729503+03	-infinity	695e5343-7868-492a-901e-342fc8f6bbfa
+55524eab-1b71-4440-bd16-6bb8a6ccc0fb	Поиск места	Найти место, где можно фотографировать	c4d558d9-7537-44a3-a3e6-3da0308aa5d9	39891c67-75f7-452b-9b0b-72b2ea638fa3	2022-07-06 13:11:32.188986+03	2022-07-06 15:26:12.805368+03	1b0cdf16-f677-4de8-9fc9-525efef17be3
+223db575-9eab-423e-9f51-9bf9b3d7ec9b	Поиск фотоаппарата	Найти то чем можно фотографировать	c4d558d9-7537-44a3-a3e6-3da0308aa5d9	096f3466-e9d8-489b-b71c-6dc9250f408a	2022-07-06 11:47:11.426231+03	2022-07-06 15:35:38.024005+03	e4457e78-653a-488b-827c-ddcfb1ac8f00
+1a378e82-e38c-46e7-83d2-04af8bbcfe8a	Поиск предметов для фотографии	Найти то что можно фотографировать	c4d558d9-7537-44a3-a3e6-3da0308aa5d9	096f3466-e9d8-489b-b71c-6dc9250f408a	-infinity	-infinity	b78bd7c2-23f4-4f1a-84c3-321e08b75188
+\.
+
+
+--
+-- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Users" ("Guid", "Login", "Password") FROM stdin;
+192b29e2-24e8-4378-ba9b-55b372aa71ef	usual	AMskRoErb1DIJFgWVYpLTnlxc8MYSAkegitwWJ16r7ANI8K6FOngG15UcBgSnOLp6w==
+096f3466-e9d8-489b-b71c-6dc9250f408a	helper	AD+LC609mZ8NDPyxZMwba+G3wf5Ov2BklxHnk0WJDOyo0SvRPB78d48/zrGo0K6m2g==
+39891c67-75f7-452b-9b0b-72b2ea638fa3	admin	ALFynHLOxxk4yzG6y4gj4no4XsMmyh3l6ihsR/gS6PcnX+x10jPeTuY6RCtK4VrsNw==
+48aa13f8-dbce-42b1-b30a-7fd1444ef411	proverka	AHuN9z+lZSkRmaqx8eTmtqxk7tslVIxaqh1nMIP0CNOP3lCiC1VRe2oIfAxrASJg3A==
+\.
+
+
+--
+-- Data for Name: __EFMigrationsHistory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin;
+20220618080701_InitialCreate	6.0.6
+\.
+
+
+--
+-- Name: Comments PK_Comments; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Comments"
+    ADD CONSTRAINT "PK_Comments" PRIMARY KEY ("Guid");
+
+
+--
+-- Name: ProjectUser PK_ProjectUser; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."ProjectUser"
+    ADD CONSTRAINT "PK_ProjectUser" PRIMARY KEY ("ProjectsGuid", "UsersGuid");
+
+
+--
+-- Name: Projects PK_Projects; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Projects"
+    ADD CONSTRAINT "PK_Projects" PRIMARY KEY ("Guid");
+
+
+--
+-- Name: TaskStatuses PK_TaskStatuses; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."TaskStatuses"
+    ADD CONSTRAINT "PK_TaskStatuses" PRIMARY KEY ("Id");
+
+
+--
+-- Name: Tasks PK_Tasks; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Tasks"
+    ADD CONSTRAINT "PK_Tasks" PRIMARY KEY ("Guid");
+
+
+--
+-- Name: Users PK_Users; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Users"
+    ADD CONSTRAINT "PK_Users" PRIMARY KEY ("Guid");
+
+
+--
+-- Name: __EFMigrationsHistory PK___EFMigrationsHistory; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."__EFMigrationsHistory"
+    ADD CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId");
+
+
+--
+-- Name: IX_Comments_AuthorGuid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IX_Comments_AuthorGuid" ON public."Comments" USING btree ("AuthorGuid");
+
+
+--
+-- Name: IX_Comments_TaskGuid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IX_Comments_TaskGuid" ON public."Comments" USING btree ("TaskGuid");
+
+
+--
+-- Name: IX_ProjectUser_UsersGuid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IX_ProjectUser_UsersGuid" ON public."ProjectUser" USING btree ("UsersGuid");
+
+
+--
+-- Name: IX_Tasks_PerformerGuid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IX_Tasks_PerformerGuid" ON public."Tasks" USING btree ("PerformerGuid");
+
+
+--
+-- Name: IX_Tasks_ProjectGuid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IX_Tasks_ProjectGuid" ON public."Tasks" USING btree ("ProjectGuid");
+
+
+--
+-- Name: IX_Tasks_StatusId; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IX_Tasks_StatusId" ON public."Tasks" USING btree ("StatusId");
+
+
+--
+-- Name: Comments FK_Comments_Tasks_TaskGuid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Comments"
+    ADD CONSTRAINT "FK_Comments_Tasks_TaskGuid" FOREIGN KEY ("TaskGuid") REFERENCES public."Tasks"("Guid") ON DELETE CASCADE;
+
+
+--
+-- Name: Comments FK_Comments_Users_AuthorGuid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Comments"
+    ADD CONSTRAINT "FK_Comments_Users_AuthorGuid" FOREIGN KEY ("AuthorGuid") REFERENCES public."Users"("Guid") ON DELETE CASCADE;
+
+
+--
+-- Name: ProjectUser FK_ProjectUser_Projects_ProjectsGuid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."ProjectUser"
+    ADD CONSTRAINT "FK_ProjectUser_Projects_ProjectsGuid" FOREIGN KEY ("ProjectsGuid") REFERENCES public."Projects"("Guid") ON DELETE CASCADE;
+
+
+--
+-- Name: ProjectUser FK_ProjectUser_Users_UsersGuid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."ProjectUser"
+    ADD CONSTRAINT "FK_ProjectUser_Users_UsersGuid" FOREIGN KEY ("UsersGuid") REFERENCES public."Users"("Guid") ON DELETE CASCADE;
+
+
+--
+-- Name: Tasks FK_Tasks_Projects_ProjectGuid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Tasks"
+    ADD CONSTRAINT "FK_Tasks_Projects_ProjectGuid" FOREIGN KEY ("ProjectGuid") REFERENCES public."Projects"("Guid") ON DELETE CASCADE;
+
+
+--
+-- Name: Tasks FK_Tasks_TaskStatuses_StatusId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Tasks"
+    ADD CONSTRAINT "FK_Tasks_TaskStatuses_StatusId" FOREIGN KEY ("StatusId") REFERENCES public."TaskStatuses"("Id") ON DELETE CASCADE;
+
+
+--
+-- Name: Tasks FK_Tasks_Users_PerformerGuid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Tasks"
+    ADD CONSTRAINT "FK_Tasks_Users_PerformerGuid" FOREIGN KEY ("PerformerGuid") REFERENCES public."Users"("Guid") ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

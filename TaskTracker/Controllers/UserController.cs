@@ -63,7 +63,7 @@ namespace TaskTracker.Controllers
                bool user = _userService.CheckUser(login, password);
 
                 if (user) return StatusCode(200, new JsonResult("true"));
-            return BadRequest("There is no such a user in database or password is incorrect");
+            return BadRequest("Пользователь не существует или неправильный пароль");
 
             
         }
